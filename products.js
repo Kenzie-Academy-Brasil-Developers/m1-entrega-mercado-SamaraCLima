@@ -88,3 +88,55 @@ const products = [
     imageDescription: "",
   },
 ];
+const vitrineFrutas = document.querySelector(".fruits")
+const vitrineBebidas = document.querySelector(".drinks")
+const vitrineHigiene = document.querySelector(".hygiene")
+vitrineFrutas.appendChild(document.createElement("ul"))
+vitrineBebidas.appendChild(document.createElement("ul"))
+vitrineHigiene.appendChild(document.createElement("ul"))
+
+function produtos (listProdutos) {
+    for (let i = 0; i < listProdutos.length; i++) {
+        let produto = listProdutos[i]
+        let card = createCard (produto)
+        let tipoDeProduto = listProdutos[i].category.toLowerCase()
+        if (tipoDeProduto == "frutas") {
+            vitrineFrutas.querySelector("ul").appendChild(card)
+        } else if (tipoDeProduto == "bebidas" ) {
+            vitrineBebidas.querySelector("ul").appendChild(card)
+        } else if (tipoDeProduto == "higiene") {
+            vitrineHigiene.querySelector("ul").append(card)
+        }
+    }
+}
+produtos(products)
+
+function createCard (obj) {
+    const productCard = document.createElement("li")
+    const productImg = document.createElement("img")
+    const productMain = document.createElement("main")
+    const productTitle = document.createElement("h1")
+    const productCategory = document.createElement("h5")
+    const productPrice = document.createElement("strong")
+    productCard.classList.add("product")
+    productImg.classList.add("product-img")
+    productMain.classList.add("product-main")
+    productTitle.classList.add("product-title")
+    productCategory.classList.add("product-category")
+    productPrice.classList.add("product-price")
+    obj.imageDescription = `${obj.title}, ${obj.category}`
+    productImg.setAttribute("alt", `${obj.imageDescription}`)
+    productImg.setAttribute("title", `${obj.imageDescription}`)
+    if (obj.image == undefined) {
+        productImg.src = `img/products/no-img.svg`
+    } else {
+        productImg.src = obj.image
+    }
+    productTitle.innerText = obj.title
+    productCategory.innerText = obj.category
+    productPrice.innerText = `R$ ${obj.price.toFixed(2).replace(".", ",")}`
+    productMain.append(productTitle, productCategory, productPrice)
+    productCard.append(productImg ,productMain)
+
+    return productCard
+}
